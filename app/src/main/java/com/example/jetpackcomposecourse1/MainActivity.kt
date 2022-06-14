@@ -12,7 +12,10 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -156,7 +159,15 @@ fun GridView(imagesList: List<Image>) {
 
     LazyVerticalGrid(cells = GridCells.Adaptive(150.dp)) {
         item {
-            Text(text = "Welcome to the best application EVER!!")
+            Column(
+                modifier = Modifier
+                    .size(200.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "New Image")
+                Icon(Icons.Default.Add, contentDescription = "New Image")
+            }
         }
         itemsIndexed(imagesList) { _, image ->
             ImageCard(image = image)
