@@ -1,5 +1,6 @@
 package com.example.jetpackcomposecourse1
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,12 +9,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -26,6 +26,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.jetpackcomposecourse1.ui.theme.JetPackComposeCourse1Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,7 +148,7 @@ val imagesList = listOf(
 //    }
 //}
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun DefaultPreview() {
     GridView(imagesList = imagesList)
@@ -157,20 +158,24 @@ fun DefaultPreview() {
 @Composable
 fun GridView(imagesList: List<Image>) {
 
-    LazyVerticalGrid(cells = GridCells.Adaptive(150.dp)) {
-        item {
-            Column(
-                modifier = Modifier
-                    .size(200.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = "New Image")
-                Icon(Icons.Default.Add, contentDescription = "New Image")
+    JetPackComposeCourse1Theme {
+        Surface{
+            LazyVerticalGrid(cells = GridCells.Adaptive(150.dp)) {
+                item(span = { GridItemSpan(4) }) {
+                    Column(
+                        modifier = Modifier
+                            .size(200.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "New Image")
+                        Icon(Icons.Default.Add, contentDescription = "New Image")
+                    }
+                }
+                itemsIndexed(imagesList) { _, image ->
+                    ImageCard(image = image)
+                }
             }
-        }
-        itemsIndexed(imagesList) { _, image ->
-            ImageCard(image = image)
         }
     }
 }
