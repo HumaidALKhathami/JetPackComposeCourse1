@@ -12,29 +12,30 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposecourse1.ui.theme.JetPackComposeCourse1Theme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
-            GridView(imagesList = imagesList)
-
+            JetPackComposeCourse1Theme {
+                window.statusBarColor = MaterialTheme.colors.primaryVariant.toArgb()
+                GridView(imagesList = imagesList)
+            }
 
         }
     }
@@ -50,6 +51,75 @@ val imagesList = listOf(
     Image(R.drawable.umbrellas, "Umbrellas", 7),
     Image(R.drawable.fog, "Fog", 8)
 )
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun DefaultPreview() {
+    GridView(imagesList = imagesList)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GridView(imagesList: List<Image>) {
+
+    
+        Surface{
+            LazyVerticalGrid(cells = GridCells.Adaptive(150.dp)) {
+                item(span = { GridItemSpan(4) }) {
+                    Column(
+                        modifier = Modifier
+                            .size(200.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "New Image")
+                        Icon(Icons.Default.Add, contentDescription = "New Image")
+                    }
+                }
+                itemsIndexed(imagesList) { index, image ->
+                    ImageCard(index = index,image = image)
+                }
+            }
+        }
+    
+}
+
+@Composable
+fun ImageCard(index: Int,image: Image) {
+    Card(
+        elevation = 5.dp,
+        shape = shapes(index = index),
+        modifier = Modifier
+            .size(200.dp)
+            .padding(8.dp)
+    ) {
+        Box {
+            Image(
+                bitmap = ImageBitmap.imageResource(id = image.resource),
+                contentDescription = image.Description,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            Text(
+                text = image.Description,
+                Modifier
+                    .background(MaterialTheme.colors.primary.copy(0.6f))
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                style = MaterialTheme.typography.subtitle2
+            )
+        }
+    }
+}
+
+@Composable
+fun shapes(index: Int): Shape {
+    return if (index %2 ==0 ){
+        MaterialTheme.shapes.small
+    }else {
+        MaterialTheme.shapes.medium
+    }
+}
+
 //
 //@Composable
 //fun Greeting(name: String) {
@@ -147,63 +217,3 @@ val imagesList = listOf(
 //        }
 //    }
 //}
-
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun DefaultPreview() {
-    GridView(imagesList = imagesList)
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun GridView(imagesList: List<Image>) {
-
-    JetPackComposeCourse1Theme {
-        Surface{
-            LazyVerticalGrid(cells = GridCells.Adaptive(150.dp)) {
-                item(span = { GridItemSpan(4) }) {
-                    Column(
-                        modifier = Modifier
-                            .size(200.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "New Image")
-                        Icon(Icons.Default.Add, contentDescription = "New Image")
-                    }
-                }
-                itemsIndexed(imagesList) { _, image ->
-                    ImageCard(image = image)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ImageCard(image: Image) {
-    Card(
-        elevation = 5.dp,
-        shape = RoundedCornerShape(10.dp),
-        modifier = Modifier
-            .size(200.dp)
-            .padding(8.dp)
-    ) {
-        Box {
-            Image(
-                bitmap = ImageBitmap.imageResource(id = image.resource),
-                contentDescription = image.Description,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            Text(
-                text = image.Description,
-                Modifier
-                    .background(Color.Cyan.copy(0.6f))
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
