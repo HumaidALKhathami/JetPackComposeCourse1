@@ -24,7 +24,7 @@ fun NetworkImage(
         Image(
             painter = painter,
             contentDescription = author,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.None,
             modifier = modifier.fillMaxSize()
         )
     }
