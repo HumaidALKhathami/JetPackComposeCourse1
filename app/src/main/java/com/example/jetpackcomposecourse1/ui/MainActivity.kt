@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.jetpackcomposecourse1.data.domain.Image
 import com.example.jetpackcomposecourse1.ui.components.ImageScreen
 import com.example.jetpackcomposecourse1.ui.theme.JetPackComposeCourse1Theme
 import dagger.hilt.android.AndroidEntryPoint

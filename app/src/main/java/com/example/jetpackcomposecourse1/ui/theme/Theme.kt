@@ -6,6 +6,7 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.example.jetpackcomposecourse1.data.domain.Image
 
 private val DarkColorPalette = darkColors(
     primary = cyanPrimaryLight,
